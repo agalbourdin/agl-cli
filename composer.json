@@ -1,0 +1,22 @@
+{
+    "name": "agl/cli",
+    "description": "AGL Framework / CLI Interface.",
+    "keywords": [ "agl", "cli", "command" ],
+    "homepage": "http://www.agl.io/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexis Galbourdin",
+            "email": "ask@agl.io"
+        }
+    ],
+    "require": {
+        "agl/core": "*",
+        "symfony/console": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Agl\\Cli": "src/"
+        }
+    }
+}
