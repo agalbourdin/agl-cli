@@ -1,8 +1,0 @@
-<?php
-require('./app/php/run.php');
-
-if (! CLI) {
-    exit;
-}
-
-require(COMPOSER_DIR . 'agl/cli/src/Agl/Cli/App.php');
