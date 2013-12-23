@@ -18,5 +18,7 @@
         "psr-0": {
             "Agl\\Cli": "src/"
         }
-    }
+    },
+
+    "minimum-stability": "dev"
 }
