@@ -61,12 +61,14 @@ class Copy
         $destination = $pInput->getArgument('destination');
         $override    = $pInput->getOption('override');
 
-        $destinationDir = dirname($destination);
+        if (! file_exists($destination) or $override) {
+            $destinationDir = dirname($destination);
 
-        if ((is_dir($destinationDir) and ! is_writable($destinationDir))
-            or (! is_dir($destinationDir) and ! mkdir($destinationDir, 0777, true))
-            or ! copy($source, $destination)) {
-            throw new Exception("Copy of '$source' to '$destination' failed.");
+            if ((is_dir($destinationDir) and ! is_writable($destinationDir))
+                or (! is_dir($destinationDir) and ! mkdir($destinationDir, 0777, true))
+                or ! copy($source, $destination)) {
+                throw new Exception("Copy of '$source' to '$destination' failed.");
+            }
         }
 
         $pOutput->writeln(static::EXEC_RETURN_SUCCESS);
