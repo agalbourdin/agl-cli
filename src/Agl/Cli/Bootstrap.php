@@ -14,6 +14,8 @@ spl_autoload_register(function($pClass)
 
 $app = new Symfony\Component\Console\Application();
 
+$app->add(new \Agl\Cli\Command\Chmod\Chmod());
+$app->add(new \Agl\Cli\Command\Dir\Create());
 $app->add(new \Agl\Cli\Command\File\Copy());
 $app->add(new \Agl\Cli\Command\File\Replace());
 
