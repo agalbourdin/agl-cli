@@ -13,7 +13,7 @@ spl_autoload_register(function($pClass)
     if (strpos($pClass, 'Symfony') === 0) {
         require(COMPOSER_DIR . 'symfony/console/' . str_replace('\\', '/', $pClass) . '.php');
     } else if (strpos($pClass, 'Agl\Cli') === 0) {
-        require(COMPOSER_DIR . 'agl/cli/src/' . str_replace('\\', '/', $pClass) . '.php');
+        require(COMPOSER_DIR . 'agl/cli/src/' . str_replace(array('Agl\Cli\\', '\\'), array('', '/'), $pClass) . '.php');
     }
 });
 
