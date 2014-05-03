@@ -1,7 +1,7 @@
 <?php
 namespace Agl\Cli\Command\File;
 
-use Agl\Cli\Command\CommandInterface,
+use \Agl\Core\Data\Dir as DirData,
     Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
@@ -19,7 +19,6 @@ use Agl\Cli\Command\CommandInterface,
 
 class Copy
     extends Command
-        implements CommandInterface
 {
 
     /**
@@ -44,9 +43,8 @@ class Copy
                'override',
                NULL,
                InputOption::VALUE_NONE,
-               'Override destination file.'
-            )
-        ;
+               'Override destination file'
+            );
     }
 
     /**
@@ -64,13 +62,9 @@ class Copy
         if (! file_exists($destination) or $override) {
             $destinationDir = dirname($destination);
 
-            if ((is_dir($destinationDir) and ! is_writable($destinationDir))
-                or (! is_dir($destinationDir) and ! mkdir($destinationDir, 0777, true))
-                or ! copy($source, $destination)) {
+            if (! DirData::create($destinationDir) or ! copy($source, $destination)) {
                 throw new Exception("Copy of '$source' to '$destination' failed.");
             }
         }
-
-        $pOutput->writeln(static::EXEC_RETURN_SUCCESS);
     }
 }

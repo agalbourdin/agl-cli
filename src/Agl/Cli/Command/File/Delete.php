@@ -1,52 +1,53 @@
 <?php
-namespace Agl\Cli\Command\Dir;
+namespace Agl\Cli\Command\File;
 
-use \Agl\Core\Data\Dir as DirData,
+use \Agl\Core\Data\File as FileData,
     Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
+    Symfony\Component\Console\Input\InputOption,
     Symfony\Component\Console\Output\OutputInterface,
     \Exception;
 
 /**
- * Create a directory (recursively).
+ * Delete a file.
  *
  * @category Agl_Cli
- * @package Agl_Cli_Command_Dir
+ * @package Agl_Cli_Command_File
  * @version 0.1.0
  */
 
-class Create
+class Delete
     extends Command
 {
 
     /**
-     * Configure the "create" command.
+     * Configure the "delete" command.
      */
     protected function configure()
     {
         $this
-            ->setName('dir:create')
-            ->setDescription('Create a directory (recursively).')
+            ->setName('file:delete')
+            ->setDescription('Delete file.')
             ->addArgument(
-                'dir',
+                'file',
                 InputArgument::REQUIRED,
-                'Directory to create'
+                'File to delete'
             );
     }
 
     /**
-     * Execute the "create" command.
+     * Execute the "delete" command.
      *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */
     protected function execute(InputInterface $pInput, OutputInterface $pOutput)
     {
-        $dir = $pInput->getArgument('dir');
+        $file = $pInput->getArgument('file');
 
-        if (! DirData::create($dir)) {
-            throw new Exception("Creation of directory '$dir' failed.");
+        if (! FileData::delete($file)) {
+            throw new Exception("Deletion of '$file' failed.");
         }
     }
 }

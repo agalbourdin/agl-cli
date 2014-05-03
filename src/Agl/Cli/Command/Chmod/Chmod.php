@@ -1,7 +1,7 @@
 <?php
 namespace Agl\Cli\Command\Chmod;
 
-use Agl\Cli\Command\CommandInterface,
+use \Agl\Core\Data\File as FileData,
     Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
@@ -18,7 +18,6 @@ use Agl\Cli\Command\CommandInterface,
 
 class Chmod
     extends Command
-        implements CommandInterface
 {
 
     /**
@@ -52,16 +51,8 @@ class Chmod
         $target = $pInput->getArgument('target');
         $chmod  = $pInput->getArgument('chmod');
 
-        if (strpos($chmod, '0') !== 0) {
-            $mode = octdec('0' . $chmod);
-        } else {
-            $mode = octdec($chmod);
-        }
-
-        if (! chmod($target, $mode)) {
+        if (! FileData::chmod($target, $chmod)) {
             throw new Exception("CHMOD '$chmod' can't be applied to '$target'.");
         }
-
-        $pOutput->writeln(static::EXEC_RETURN_SUCCESS);
     }
 }

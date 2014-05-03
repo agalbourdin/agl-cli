@@ -1,4 +1,9 @@
 <?php
+/**
+ * Register autoloader if required, dynamically load commands, initialize
+ * and run the application.
+ */
+
 if (! CLI) {
     exit;
 }
@@ -14,9 +19,20 @@ spl_autoload_register(function($pClass)
 
 $app = new Symfony\Component\Console\Application();
 
-$app->add(new \Agl\Cli\Command\Chmod\Chmod());
-$app->add(new \Agl\Cli\Command\Dir\Create());
-$app->add(new \Agl\Cli\Command\File\Copy());
-$app->add(new \Agl\Cli\Command\File\Replace());
+$commandDir = realpath(__DIR__ . '/Command') . DS;
+$files      = \Agl\Core\Data\Dir::listFilesRecursive($commandDir);
+foreach ($files as $file) {
+    $class = '\Agl\Cli\Command\\' . str_replace(array(
+        $commandDir,
+        '.php',
+        DS
+    ), array(
+        '',
+        '',
+        '\\'
+    ), $file);
+
+    $app->add(new $class);
+}
 
 $app->run();

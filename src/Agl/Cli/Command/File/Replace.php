@@ -1,7 +1,7 @@
 <?php
 namespace Agl\Cli\Command\File;
 
-use Agl\Cli\Command\CommandInterface,
+use \Agl\Core\Data\File as FileData,
     Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
@@ -18,7 +18,6 @@ use Agl\Cli\Command\CommandInterface,
 
 class Replace
     extends Command
-        implements CommandInterface
 {
 
     /**
@@ -60,10 +59,8 @@ class Replace
 
         $content = file_get_contents($file);
         $content = str_replace($toReplace, $replaceBy, $content);
-        if (! file_put_contents($file, $content)) {
+        if (! FileData::write($file, $content)) {
             throw new Exception("Content replacement in '$file' failed.");
         }
-
-        $pOutput->writeln(static::EXEC_RETURN_SUCCESS);
     }
 }
