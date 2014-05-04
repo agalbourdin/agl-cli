@@ -20,10 +20,6 @@ use \Agl\Core\Data\Dir as DirData,
 class Copy
     extends Command
 {
-
-    /**
-     * Configure the "copy" command.
-     */
     protected function configure()
     {
         $this
@@ -48,8 +44,6 @@ class Copy
     }
 
     /**
-     * Execute the "copy" command.
-     *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */

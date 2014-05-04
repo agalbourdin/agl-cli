@@ -5,6 +5,7 @@ use \Agl\Core\Data\File as FileData,
     Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
+    Symfony\Component\Console\Input\InputOption,
     Symfony\Component\Console\Output\OutputInterface,
     \Exception;
 
@@ -19,10 +20,6 @@ use \Agl\Core\Data\File as FileData,
 class Replace
     extends Command
 {
-
-    /**
-     * Configure the "replace" command.
-     */
     protected function configure()
     {
         $this
@@ -42,12 +39,16 @@ class Replace
                 'replace_by',
                 InputArgument::REQUIRED,
                 'Replace by this string'
+            )
+            ->addOption(
+               'pcre',
+               NULL,
+               InputOption::VALUE_NONE,
+               'Replace using PCRE'
             );
     }
 
     /**
-     * Execute the "copy" command.
-     *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */
@@ -56,9 +57,12 @@ class Replace
         $file      = $pInput->getArgument('file');
         $toReplace = $pInput->getArgument('to_replace');
         $replaceBy = $pInput->getArgument('replace_by');
+        $pcre      = $pInput->getOption('pcre');
 
         $content = file_get_contents($file);
-        $content = str_replace($toReplace, $replaceBy, $content);
+        $content = ($pcre) ?
+            preg_replace($toReplace, $replaceBy, $content) :
+            str_replace($toReplace, $replaceBy, $content);
         if (! FileData::write($file, $content)) {
             throw new Exception("Content replacement in '$file' failed.");
         }

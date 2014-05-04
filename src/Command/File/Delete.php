@@ -20,10 +20,6 @@ use \Agl\Core\Data\File as FileData,
 class Delete
     extends Command
 {
-
-    /**
-     * Configure the "delete" command.
-     */
     protected function configure()
     {
         $this
@@ -37,8 +33,6 @@ class Delete
     }
 
     /**
-     * Execute the "delete" command.
-     *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */

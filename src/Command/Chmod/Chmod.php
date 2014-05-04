@@ -19,10 +19,6 @@ use \Agl\Core\Data\File as FileData,
 class Chmod
     extends Command
 {
-
-    /**
-     * Configure the "create" command.
-     */
     protected function configure()
     {
         $this
@@ -41,8 +37,6 @@ class Chmod
     }
 
     /**
-     * Execute the "create" command.
-     *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */

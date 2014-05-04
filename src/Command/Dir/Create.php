@@ -19,10 +19,6 @@ use \Agl\Core\Data\Dir as DirData,
 class Create
     extends Command
 {
-
-    /**
-     * Configure the "create" command.
-     */
     protected function configure()
     {
         $this
@@ -36,8 +32,6 @@ class Create
     }
 
     /**
-     * Execute the "create" command.
-     *
      * @param InputInterface $pInput
      * @param OutputInterface $pOnput
      */
