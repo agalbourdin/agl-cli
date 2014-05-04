@@ -34,6 +34,12 @@ class Create
                 'Controller name (ex: home/index)'
             )
             ->addOption(
+               'json',
+               NULL,
+               InputOption::VALUE_NONE,
+               'JSON Controller'
+            )
+            ->addOption(
                'override',
                NULL,
                InputOption::VALUE_NONE,
@@ -48,6 +54,7 @@ class Create
     protected function execute(InputInterface $pInput, OutputInterface $pOutput)
     {
         $controller = $pInput->getArgument('controller');
+        $json       = $pInput->getOption('json');
         $override   = $pInput->getOption('override');
 
         if (! preg_match('/^([a-z0-9]+)\/([a-z0-9_-]+)$/', $controller)) {
@@ -65,7 +72,57 @@ class Create
 
         $classFile    = $classDir . $controllerArr[1] . Agl::PHP_EXT;
 
-        $classContent = '<?php
+        if ($json) {
+            $classContent = '<?php
+class ' . $controllerArr[0] . ucfirst($controllerArr[1]) . 'Controller
+    extends Controller
+{
+    /**
+     * JSON Controller.
+     *
+     * @var bool
+     */
+    protected $_json = true;
+
+    /**
+     * GET action.
+     * This is the default action. Returned value will be JSON encoded and
+     * displayed with "application/json" HTTP header.
+     *
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return array();
+    }
+
+    /**
+     * POST action.
+     */
+    public function postAction()
+    {
+        //
+    }
+
+    /**
+     * PUT action.
+     */
+    public function putAction()
+    {
+        //
+    }
+
+    /**
+     * DELETE action.
+     */
+    public function deleteAction()
+    {
+        //
+    }
+}
+';
+        } else {
+            $classContent = '<?php
 class ' . $controllerArr[0] . ucfirst($controllerArr[1]) . 'Controller
     extends Controller
 {
@@ -105,6 +162,8 @@ class ' . $controllerArr[0] . ucfirst($controllerArr[1]) . 'Controller
     }
 }
 ';
+        }
+
 
         if (! file_exists($classFile) or $override) {
             if (! DirData::create($classDir)
